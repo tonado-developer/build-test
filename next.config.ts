@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     trailingSlash: true,
     images: { unoptimized: true }
   }),
+  images: {
+    domains: ['https://sandbox.programmierung-bw.de'], // WordPress Domain hinzufügen
+  },
 };
 
 export default nextConfig;

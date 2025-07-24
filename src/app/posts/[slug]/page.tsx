@@ -1,5 +1,27 @@
+// app/posts/[slug]/page.tsx
+import Image from 'next/image';
 import apolloClient from '../../../lib/apollo-client';
 import { GET_POST_BY_SLUG, GET_POSTS } from '../../../lib/queries';
+
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  date: string;
+  excerpt?: string;
+  featuredImage?: {
+    node: {
+      sourceUrl: string;
+      altText: string;
+    };
+  };
+  author: {
+    node: {
+      name: string;
+    };
+  };
+}
 
 interface PostPageProps {
   params: {
@@ -14,19 +36,19 @@ export async function generateStaticParams() {
     variables: { first: 100 } // Alle Posts für Static Generation
   });
 
-  return data.posts.nodes.map((post: any) => ({
+  return data.posts.nodes.map((post: Post) => ({
     slug: post.slug,
   }));
 }
 
-// Metadata für SEO
+// Metadata für SEO  
 export async function generateMetadata({ params }: PostPageProps) {
   const { data } = await apolloClient.query({
     query: GET_POST_BY_SLUG,
     variables: { slug: params.slug }
   });
 
-  const post = data.postBy;
+  const post: Post = data.postBy;
 
   return {
     title: post?.title || 'Post not found',
@@ -40,13 +62,13 @@ export default async function PostPage({ params }: PostPageProps) {
     variables: { slug: params.slug }
   });
 
-  const post = data.postBy;
+  const post: Post = data.postBy;
 
   if (!post) {
     return (
       <div className="text-center py-20">
         <h1 className="text-2xl font-bold text-gray-900">Post not found</h1>
-        <p className="text-gray-600 mt-4">The post you're looking for doesn't exist.</p>
+        <p className="text-gray-600 mt-4">The post you&apos;re looking for doesn&apos;t exist.</p>
       </div>
     );
   }
@@ -66,9 +88,11 @@ export default async function PostPage({ params }: PostPageProps) {
 
       {post.featuredImage && (
         <div className="mb-8">
-          <img 
+          <Image
             src={post.featuredImage.node.sourceUrl} 
             alt={post.featuredImage.node.altText || post.title}
+            width={800}
+            height={400}
             className="w-full h-96 object-cover rounded-lg"
           />
         </div>
