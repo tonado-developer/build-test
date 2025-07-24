@@ -9,6 +9,11 @@ const allowedOrigins = isDDEV ? [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: allowedOrigins,
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'export',
+    trailingSlash: true,
+    images: { unoptimized: true }
+  }),
 };
 
 export default nextConfig;
