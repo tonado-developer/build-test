@@ -42,20 +42,30 @@ export async function generateStaticParams() {
 }
 
 // Metadata für SEO  
+// app/posts/[slug]/page.tsx - generateMetadata erweitern
 export async function generateMetadata({ params }: PostPageProps) {
-  const { slug } = await params;
-  const { data } = await apolloClient.query({
-    query: GET_POST_BY_SLUG,
-    variables: { slug }
-  });
-
-  const post: Post = data.postBy;
-
-  return {
-    title: post?.title || 'Post not found',
-    description: post?.excerpt?.replace(/<[^>]*>/g, '').substring(0, 160) || '',
-  };
-}
+    const { slug } = await params;
+    const { data } = await apolloClient.query({
+      query: GET_POST_BY_SLUG,
+      variables: { slug }
+    });
+  
+    const post = data.postBy;
+  
+    return {
+      title: `${post?.title} | Dein Blog`,
+      description: post?.excerpt?.replace(/<[^>]*>/g, '').substring(0, 160),
+      openGraph: {
+        title: post?.title,
+        description: post?.excerpt?.replace(/<[^>]*>/g, '').substring(0, 160),
+        url: `https://sandbox.nasse-design.de/posts/${slug}`,
+        type: 'article',
+        publishedTime: post?.date,
+        authors: [post?.author.node.name],
+        images: post?.featuredImage ? [post.featuredImage.node.sourceUrl] : [],
+      },
+    };
+  }
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;

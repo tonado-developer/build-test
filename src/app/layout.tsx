@@ -6,8 +6,19 @@ import Navigation from './components/Navigation'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Next.js Pilot',
-  description: 'Pilot Projekt für Next.js Entwicklung',
+  title: 'Dein WordPress Blog',
+  description: 'WordPress Headless Blog mit Next.js',
+  openGraph: {
+    title: 'Dein Blog',
+    description: 'Blog Description',
+    url: 'https://sandbox.nasse-design.de',
+    siteName: 'Dein Blog',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({
