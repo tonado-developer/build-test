@@ -24,9 +24,9 @@ interface Post {
 }
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Für bessere SEO - generiert statische Seiten zur Build-Zeit
@@ -43,9 +43,10 @@ export async function generateStaticParams() {
 
 // Metadata für SEO  
 export async function generateMetadata({ params }: PostPageProps) {
+  const { slug } = await params;
   const { data } = await apolloClient.query({
     query: GET_POST_BY_SLUG,
-    variables: { slug: params.slug }
+    variables: { slug }
   });
 
   const post: Post = data.postBy;
@@ -57,9 +58,10 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params;
   const { data } = await apolloClient.query({
     query: GET_POST_BY_SLUG,
-    variables: { slug: params.slug }
+    variables: { slug }
   });
 
   const post: Post = data.postBy;
