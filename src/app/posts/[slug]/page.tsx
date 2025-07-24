@@ -1,5 +1,4 @@
 // app/posts/[slug]/page.tsx
-export const dynamic = 'force-dynamic'
 import Image from 'next/image';
 import apolloClient from '../../../lib/apollo-client';
 import { GET_POST_BY_SLUG, GET_POSTS } from '../../../lib/queries';
