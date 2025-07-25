@@ -30,7 +30,7 @@ export default async function Home() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-bold">Letzte Beiträge</h1>
+      <h1 className="text-4xl font-bold">Die Letzten Beiträge</h1>
       <div className="grid gap-6">
         {posts.map((post) => (
           <article key={post.id} className="border-b pb-6">
