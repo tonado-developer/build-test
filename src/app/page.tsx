@@ -1,6 +1,6 @@
 import apolloClient from '../lib/apollo-client';
 import { GET_POSTS } from '../lib/queries';
-
+export const revalidate = 0; // Immer fresh data
 interface Post {
   id: string;
   title: string;

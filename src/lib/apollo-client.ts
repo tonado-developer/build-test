@@ -5,9 +5,12 @@ const httpLink = createHttpLink({
 });
 
 const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-  ssrMode: typeof window === 'undefined',
-});
+    link: httpLink,
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      watchQuery: { fetchPolicy: 'no-cache' },
+      query: { fetchPolicy: 'no-cache' }
+    }
+  });
 
 export default apolloClient;
