@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import apolloClient from '../../../lib/apollo-client';
 import { GET_POST_BY_SLUG, GET_POSTS } from '../../../lib/queries';
+export const revalidate = 0; // Immer fresh data
+export const dynamic = 'force-dynamic';
 
 interface Post {
   id: string;

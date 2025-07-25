@@ -8,9 +8,6 @@ const httpLink = new HttpLink({
       headers: {
         ...options?.headers ?? {},
         Authorization: `Bearer ${process.env.AUTH_TOKEN}`
-      },
-      next: {
-        revalidate: 0
       }
     })
   }
@@ -21,11 +18,7 @@ const apolloClient = new ApolloClient({
     link: ApolloLink.from([httpLink]),
     defaultOptions: {
       query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
-      },
-      watchQuery: {
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first', // statt no-cache
         errorPolicy: 'all'
       }
     }
