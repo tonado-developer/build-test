@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  ...(process.env.DEPLOY_TARGET === 'static' && {
+    output: 'export',
+    trailingSlash: true,
+  }),
   images: {
-    domains: ['sandbox.programmierung-bw.de'],
+    ...(process.env.DEPLOY_TARGET === 'static' 
+      ? { unoptimized: true }
+      : { domains: ['sandbox.programmierung-bw.de'] }
+    ),
   },
 };
 
