@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    domains: ['sandbox.programmierung-bw.de'],
-  },
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'export',
+    trailingSlash: true,
+    images: { unoptimized: true }
+  }),
 };
 
 export default nextConfig;
