@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "DEPLOY_TARGET=static NODE_ENV=production next build",
+    "build": "NODE_ENV=production next build",
     "export": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
