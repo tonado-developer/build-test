@@ -18,7 +18,7 @@ const apolloClient = new ApolloClient({
     link: ApolloLink.from([httpLink]),
     defaultOptions: {
       query: {
-        fetchPolicy: 'cache-first', // statt no-cache
+        fetchPolicy: 'network-only', // Immer vom Netzwerk
         errorPolicy: 'all'
       }
     }

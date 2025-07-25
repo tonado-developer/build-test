@@ -25,7 +25,8 @@ interface Post {
 export default async function Home() {
   const { data } = await apolloClient.query({
     query: GET_POSTS,
-    variables: { first: 10 }
+    variables: { first: 10 },
+    fetchPolicy: 'no-cache'
   });
 
   const posts: Post[] = data.posts.nodes;

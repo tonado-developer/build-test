@@ -35,7 +35,8 @@ interface PostPageProps {
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
     query: GET_POSTS,
-    variables: { first: 100 } // Alle Posts für Static Generation
+    variables: { first: 100 },
+    fetchPolicy: 'no-cache' // Alle Posts für Static Generation
   });
 
   return data.posts.nodes.map((post: Post) => ({
@@ -49,7 +50,8 @@ export async function generateMetadata({ params }: PostPageProps) {
     const { slug } = await params;
     const { data } = await apolloClient.query({
       query: GET_POST_BY_SLUG,
-      variables: { slug }
+      variables: { slug },
+        fetchPolicy: 'no-cache'
     });
   
     const post = data.postBy;
@@ -73,7 +75,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
   const { data } = await apolloClient.query({
     query: GET_POST_BY_SLUG,
-    variables: { slug }
+    variables: { slug },
+  fetchPolicy: 'no-cache'
   });
 
   const post: Post = data.postBy;
