@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject, HttpLink, ApolloLink } from '@apollo/client'
+import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from '@apollo/client'
 
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL,
@@ -15,13 +15,16 @@ const httpLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
-    link: ApolloLink.from([httpLink]),
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'network-only', // Immer vom Netzwerk
-        errorPolicy: 'all'
-      }
-    }
-  })
+    link: ApolloLink.from([
+      new ApolloLink((operation, forward) => {
+        console.log('🚀 GraphQL Query:', operation.operationName, operation.variables);
+        return forward(operation).map((response) => {
+          console.log('📦 GraphQL Response:', response.data);
+          return response;
+        });
+      }),
+      httpLink
+    ])
+  });
 
 export default apolloClient;
